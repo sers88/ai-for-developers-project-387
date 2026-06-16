@@ -3,7 +3,7 @@
 A Calendly-like scheduling application where users create event types, share booking links, and let guests book time slots based on their weekly availability.
 
 ### Hexlet tests and linter status:
-[![Actions Status](https://github.com/sers88/ai-for-developers-project-386/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/sers88/ai-for-developers-project-386/actions)
+[![Actions Status](https://github.com/sers88/ai-for-developers-project-387/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/sers88/ai-for-developers-project-387/actions)
 
 ---
 
@@ -69,8 +69,8 @@ A Calendly-like scheduling application where users create event types, share boo
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/sers88/ai-for-developers-project-386.git
-cd ai-for-developers-project-386
+git clone https://github.com/sers88/ai-for-developers-project-387.git
+cd ai-for-developers-project-387
 
 # 2. Copy the environment template
 cp .env.example .env

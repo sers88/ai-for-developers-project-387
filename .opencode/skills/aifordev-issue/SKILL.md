@@ -1,6 +1,6 @@
 ---
 name: aifordev-issue
-description: Implements a GitHub issue end-to-end for the AiForDevelopers monorepo. Use when user says "приступай к реализации {url}", "реализуй issue #{N}", "make issue #{N}", or references a github.com/sers88/ai-for-developers-project-386 URL. Handles branch creation, implementation, verification, commit, push, CI check, PR creation, and merge+close.
+description: Implements a GitHub issue end-to-end for the AiForDevelopers monorepo. Use when user says "приступай к реализации {url}", "реализуй issue #{N}", "make issue #{N}", or references a github.com/sers88/ai-for-developers-project-387 URL. Handles branch creation, implementation, verification, commit, push, CI check, PR creation, and merge+close.
 ---
 
 # AiForDev Issue Implementation
@@ -12,7 +12,7 @@ Full end-to-end: issue → branch → implement → verify → commit → push �
 ### 1. Understand
 
 ```sh
-gh issue view {N} --repo sers88/ai-for-developers-project-386 --json title,body,labels
+gh issue view {N} --repo sers88/ai-for-developers-project-387 --json title,body,labels
 ```
 
 ### 2. Branch
@@ -96,7 +96,7 @@ Always include `Closes #{N}` at top of body. Use markdown bullet list.
 
 ```sh
 gh pr merge {PR_NUMBER} --rebase --delete-branch
-gh issue close {N} --repo sers88/ai-for-developers-project-386
+gh issue close {N} --repo sers88/ai-for-developers-project-387
 ```
 
 ## Key Conventions

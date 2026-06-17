@@ -18,6 +18,7 @@ class BookingService(
     private val googleCalendarService: GoogleCalendarService,
     private val availabilityService: AvailabilityService,
     private val emailService: EmailService,
+    private val contactService: ContactService,
 ) {
     @Transactional
     fun createBooking(request: CreateBookingRequest): BookingResponse {
@@ -79,6 +80,14 @@ class BookingService(
                 }
             } catch (e: Exception) {
                 // Booking succeeds even if calendar event creation fails
+            }
+        }
+
+        if (userId != null) {
+            try {
+                contactService.createOrUpdateFromBooking(userId, request.guestName, request.guestEmail, startTime)
+            } catch (_: Exception) {
+                // Booking succeeds even if contact creation fails
             }
         }
 

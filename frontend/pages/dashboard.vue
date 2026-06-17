@@ -13,12 +13,14 @@ type BookingFilter = "upcoming" | "past"
 
 const api = useApiClient()
 const { loadBookings, cancelBooking } = useBookings()
+const { loadContacts } = useContacts()
 
 const { data: me } = await api.GET("/api/me")
 
 const loading = ref(true)
 const generalError = ref<string | null>(null)
 const bookings = ref<Awaited<ReturnType<typeof loadBookings>>>([])
+const recentContacts = ref<Awaited<ReturnType<typeof loadContacts>>>([])
 const filter = ref<BookingFilter>("upcoming")
 
 const tabItems: { label: string; value: BookingFilter; icon: string }[] = [
@@ -96,9 +98,17 @@ function statusKind(b: Booking): BookingStatusKind {
   return new Date(b.endTime).getTime() < Date.now() ? "completed" : "confirmed"
 }
 
+async function loadRecentContacts() {
+  try {
+    recentContacts.value = await loadContacts()
+  } catch {
+    // Non-critical, dashboard works without it
+  }
+}
+
 watch(filter, () => load())
 
-await load()
+await Promise.all([load(), loadRecentContacts()])
 </script>
 
 <template>
@@ -238,5 +248,32 @@ await load()
         </div>
       </template>
     </UModal>
+
+    <section v-if="recentContacts.length > 0" class="mt-8">
+      <header class="mb-3 flex items-center justify-between">
+        <h2 class="text-lg font-semibold text-highlighted">Recent Contacts</h2>
+        <UButton to="/contacts" label="View all" color="neutral" variant="ghost" size="sm" icon="i-lucide-arrow-right" trailing />
+      </header>
+      <div class="flex flex-col gap-2">
+        <UCard
+          v-for="contact in recentContacts.slice(0, 5)"
+          :key="contact.id"
+          :ui="{ body: 'flex items-center gap-3 py-3' }"
+        >
+          <div class="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-highlighted">
+            {{ contact.name?.charAt(0)?.toUpperCase() ?? "?" }}
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-medium text-highlighted">{{ contact.name }}</p>
+            <p class="truncate text-xs text-muted">{{ contact.email }}</p>
+          </div>
+          <UIcon
+            :name="contact.isFavorite ? 'i-lucide-star' : 'i-lucide-star'"
+            :class="contact.isFavorite ? 'text-warning' : 'text-muted'"
+            class="size-4 shrink-0"
+          />
+        </UCard>
+      </div>
+    </section>
   </div>
 </template>

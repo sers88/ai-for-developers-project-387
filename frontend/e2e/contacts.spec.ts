@@ -141,8 +141,8 @@ test.describe("Contacts: auto-creation, favorites, search, dashboard", () => {
     const favButton = page.getByTestId(`contact-fav-${contactId}`)
     await favButton.click()
 
-    // Wait for the API call and verify the star color changes (warning = favorite)
-    await expect(favButton.locator("..")).toHaveClass(/warning/, { timeout: 10_000 })
+    // Wait for API and verify the button shows as favorited
+    await expect(favButton).toHaveAttribute("aria-label", "Remove from favorites", { timeout: 10_000 })
 
     // ── 8. Favorite filter ──────────────────────────────────────
     // Check "Favorites only" — should still show since we favorited

@@ -31,12 +31,18 @@ async function load() {
 
 async function onToggleFavorite(contact: Contact) {
   try {
-    const updated = await toggleFavorite(contact.id!, !contact.isFavorite)
-    const idx = contacts.value.findIndex((c) => c.id === updated.id)
+    const newFavoriteValue = !contact.isFavorite
+    const result = await toggleFavorite(contact.id!, newFavoriteValue)
+    
+    // Update in place
+    const idx = contacts.value.findIndex((c) => c.id === result.id)
     if (idx !== -1) {
-      contacts.value[idx] = updated
+      contacts.value[idx] = result
+    } else {
+      console.error('[DEBUG] Contact not found in list!')
     }
   } catch (e) {
+    console.error('[DEBUG] Toggle error:', e)
     generalError.value = e instanceof Error ? e.message : "Failed to update contact"
   }
 }
@@ -69,22 +75,23 @@ await load()
       <p class="mt-1 text-sm text-muted">People you've met with. Star your favorites to keep them close.</p>
     </header>
 
-    <div class="mb-6 flex flex-wrap items-center gap-3">
-      <UInput
-        v-model="searchQuery"
-        icon="i-lucide-search"
-        placeholder="Search by name or email..."
-        class="w-72"
-        data-testid="contacts-search"
-        @input="onSearchInput"
-      />
-      <UCheckbox
-        v-model="favoriteFilter"
-        label="Favorites only"
-        name="favorite-filter"
-        data-testid="contacts-fav-filter"
-      />
-    </div>
+     <div class="mb-6 flex flex-wrap items-center gap-3">
+       <div data-testid="contacts-search">
+         <UInput
+           v-model="searchQuery"
+           icon="i-lucide-search"
+           placeholder="Search by name or email..."
+           class="w-72"
+           @input="onSearchInput"
+         />
+       </div>
+       <UCheckbox
+         v-model="favoriteFilter"
+         label="Favorites only"
+         name="favorite-filter"
+         data-testid="contacts-fav-filter"
+       />
+     </div>
 
     <p
       v-if="generalError"
@@ -140,7 +147,7 @@ await load()
           </p>
         </div>
         <UButton
-          :icon="contact.isFavorite ? 'i-lucide-star' : 'i-lucide-star'"
+          :icon="contact.isFavorite ? 'i-lucide-star' : 'i-lucide-star-off'"
           :color="contact.isFavorite ? 'warning' : 'neutral'"
           :variant="contact.isFavorite ? 'solid' : 'ghost'"
           size="sm"

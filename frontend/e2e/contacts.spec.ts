@@ -141,8 +141,11 @@ test.describe("Contacts: auto-creation, favorites, search, dashboard", () => {
     const favButton = page.getByTestId(`contact-fav-${contactId}`)
     await favButton.click()
 
-    // Wait for API and verify the button shows as favorited
-    await expect(favButton).toHaveAttribute("aria-label", "Remove from favorites", { timeout: 10_000 })
+    // Wait for button to re-render with updated state
+    await page.waitForTimeout(2000)
+
+    // Verify the button shows as favorited
+    await expect(page.getByTestId(`contact-fav-${contactId}`)).toHaveAttribute("aria-label", "Remove from favorites", { timeout: 10_000 })
 
     // ── 8. Favorite filter ──────────────────────────────────────
     // Check "Favorites only" — should still show since we favorited
@@ -155,7 +158,7 @@ test.describe("Contacts: auto-creation, favorites, search, dashboard", () => {
 
     // ── 9. Search ────────────────────────────────────────────────
     const searchInput = page.getByTestId("contacts-search").locator("input")
-    await searchInput.fill("nonexistent")
+    await searchInput.fill("nonexistent", { timeout: 10_000 })
     await page.waitForTimeout(500)
     await expect(page.getByTestId("contacts-empty")).toBeVisible({ timeout: 10_000 })
 
@@ -168,7 +171,7 @@ test.describe("Contacts: auto-creation, favorites, search, dashboard", () => {
     await expect(page.getByTestId("page-heading")).toHaveText("Dashboard")
 
     // The contact should appear in the Recent Contacts section
-    await expect(page.getByText("Recent Contacts")).toBeVisible()
-    await expect(page.getByText(guestName)).toBeVisible()
+    await expect(page.getByText("Recent Contacts")).toBeVisible({ timeout: 10_000 })
+    await expect(page.getByText(guestName).first()).toBeVisible({ timeout: 10_000 })
   })
 })

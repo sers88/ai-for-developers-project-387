@@ -1,0 +1,31 @@
+ContactResponse:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    name:
+      type: string
+    email:
+      type: string
+      format: email
+    avatarUrl:
+      type: string
+    isFavorite:
+      type: boolean
+    lastBookedAt:
+      type: string
+      format: date-time
+    bookingCount:
+      type: integer
+    createdAt:
+      type: string
+      format: date-time
+
+UpdateFavoriteRequest:
+  type: object
+  properties:
+    isFavorite:
+      type: boolean
+  required:
+    - isFavorite

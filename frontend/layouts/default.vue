@@ -7,6 +7,7 @@ const colorMode = useColorMode()
 const navItems = [
   { label: "Dashboard", to: "/dashboard", icon: "i-lucide-layout-dashboard", testid: "nav-dashboard" },
   { label: "Event Types", to: "/event-types", icon: "i-lucide-calendar-days", testid: "nav-event-types" },
+  { label: "Contacts", to: "/contacts", icon: "i-lucide-users", testid: "nav-contacts" },
   { label: "Schedules", to: "/schedules", icon: "i-lucide-clock", testid: "nav-schedules" },
   { label: "Settings", to: "/settings", icon: "i-lucide-settings", testid: "nav-settings" },
 ] as const

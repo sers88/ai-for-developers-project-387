@@ -27,6 +27,12 @@ npm run build                    # production build
 
 ## Critical gotchas
 
+### Git Commits
+- **All commits must follow Conventional Commits format** — `<type>: <subject>` where type is one of: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `build`, `ci`, `revert`.
+- Examples: `feat: add OAuth2 authentication`, `fix: resolve CORS issues`, `docs: update AGENTS.md`.
+- Subject should be lowercase, no trailing period, max 50 chars.
+- Body (optional) should explain what and why, not how. Wrap at 72 chars.
+
 ### Backend
 - **ktlint is strict**: trailing commas required, multiline lambdas need `{` on new line. Always run `ktlintFormat` after writing Kotlin code, then `build`.
 - **Tests use `@TestPropertySource`**, not `application-test.yml`. The profile-based config was unreliable — inline properties are used instead. H2 in PostgreSQL mode, Flyway disabled.

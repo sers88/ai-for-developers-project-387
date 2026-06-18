@@ -123,9 +123,9 @@ class EmailService(
             mailSender.send(mimeMessage)
             logger.info("Sent email '{}' to {}", subject, to)
         } catch (e: MessagingException) {
-            logger.error("Failed to send email '{}' to {}", subject, to, e)
+            logger.error("Failed to send email '{}' to {}: {}", subject, to, e.message)
         } catch (e: Exception) {
-            logger.error("Unexpected error sending email '{}' to {}", subject, to, e)
+            logger.error("Unexpected error sending email '{}' to {}: {}", subject, to, e.message)
         }
     }
 
